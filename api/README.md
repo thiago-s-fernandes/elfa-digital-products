@@ -64,13 +64,7 @@ networks:
     driver: bridge
 ```
 
-##### Passo 1: Suba o banco de dados
-
-```bash
-docker compose up -d
-```
-
-##### Passo 2: Crie o arquivo `.env` e configure dessa forma
+##### Passo 1: Crie o arquivo `.env` e configure dessa forma
 
 ```env
 API_PORT="3000"
@@ -81,6 +75,12 @@ POSTGRES_DB="elfa_db"
 DATABASE_URL="postgresql://postgres:postgres@localhost:5435/elfa_db?schema=public"
 ```
 
+##### Passo 2: Suba o banco de dados
+
+```bash
+docker compose up -d
+```
+
 ##### Passo 3: Instale as dependências e rode o comando para iniciar o db
 
 ```bash
@@ -89,6 +89,12 @@ npm run db:init
 ```
 
 ##### Passo 4: Inicie o servidor
+
+```bash
+npm run start
+```
+
+ou em modo de desenvolvimento
 
 ```bash
 npm run dev
