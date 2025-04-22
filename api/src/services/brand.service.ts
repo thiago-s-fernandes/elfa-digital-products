@@ -4,7 +4,7 @@ import type { BaseBrandRepository } from "@/repositories/interfaces/brand.interf
 import {
   brandFindAllQuerySchema,
   type BrandFindAllInputSchema,
-  type BrandFindAllSuccessResponseSchema,
+  type BrandFindAllSuccessResponseSchema
 } from "@/schemas/brand.schema";
 
 export class BrandService {
@@ -18,11 +18,11 @@ export class BrandService {
 
       const parsedQuery = brandFindAllQuerySchema.parse(query);
 
-      const brands = await this.brandRepository.findAll({
-        query: parsedQuery,
+      const data = await this.brandRepository.findAll({
+        query: parsedQuery
       });
 
-      return HttpResponseHandler.success(brands, SuccessCodes.SUCCESS);
+      return HttpResponseHandler.success(data, SuccessCodes.SUCCESS);
     } catch (error) {
       if (error instanceof HttpErrorHandler) {
         throw error;

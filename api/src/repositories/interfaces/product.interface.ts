@@ -2,16 +2,22 @@ import type { Brand, Product } from "@prisma/client";
 import type {
   ProductCreateInputSchema,
   ProductFindOneInputSchema,
-  ProductFindAllInputSchema,
+  ProductFindAllInputSchema
 } from "@/schemas/product.schema";
 
 type BrandWithoutDates = Omit<Brand, "createdAt" | "updatedAt">;
-type ProductId = Pick<Product, "id">;
-type ProductWithoutBrandId = Omit<Product, "brandId">;
-type ProductWithBrand = ProductWithoutBrandId & { brand: BrandWithoutDates };
+type ProductWithBrand = Omit<Product, "brandId"> & { brand: BrandWithoutDates };
+type FindOnePromiseReturn = Promise<Product | null>;
+type FindAllPromiseReturn = Promise<{
+  products: ProductWithBrand[];
+  totalItems: number;
+  currentPage: number;
+  totalPages: number;
+}>;
+type CreatePromiseReturn = Promise<Product>;
 
 export interface BaseProductRepository {
-  findOne(input: ProductFindOneInputSchema): Promise<Product | null>;
-  findAll(input: ProductFindAllInputSchema): Promise<ProductWithBrand[]>;
-  create(input: ProductCreateInputSchema): Promise<ProductId>;
+  findOne(input: ProductFindOneInputSchema): FindOnePromiseReturn;
+  findAll(input: ProductFindAllInputSchema): FindAllPromiseReturn;
+  create(input: ProductCreateInputSchema): CreatePromiseReturn;
 }

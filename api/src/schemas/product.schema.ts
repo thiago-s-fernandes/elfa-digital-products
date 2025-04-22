@@ -87,7 +87,12 @@ export type ProductFindAllInputSchema = z.infer<
 
 export const productFindAllSuccessResponseSchema = z
   .object({
-    data: z.array(productSchema),
+    data: z.object({
+      products: z.array(productSchema),
+      totalItems: z.number(),
+      currentPage: z.number(),
+      totalPages: z.number()
+    }),
     statusCode: z.literal(SuccessCodes.SUCCESS)
   })
   .strict();

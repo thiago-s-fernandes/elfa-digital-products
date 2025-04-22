@@ -9,7 +9,7 @@ import {
   type ProductFindAllSuccessResponseSchema,
   productCreateBodySchema,
   productFindAllQuerySchema,
-  ProductResponseCode,
+  ProductResponseCode
 } from "@/schemas/product.schema";
 
 export class ProductService {
@@ -26,11 +26,11 @@ export class ProductService {
 
       const parsedQuery = productFindAllQuerySchema.parse(query);
 
-      const products = await this.productRepository.findAll({
-        query: parsedQuery,
+      const data = await this.productRepository.findAll({
+        query: parsedQuery
       });
 
-      return HttpResponseHandler.success(products, SuccessCodes.SUCCESS);
+      return HttpResponseHandler.success(data, SuccessCodes.SUCCESS);
     } catch (error) {
       if (error instanceof HttpErrorHandler) {
         throw error;
@@ -50,37 +50,37 @@ export class ProductService {
 
       const hasBrand = await this.brandRepository.findOne({
         params: {
-          id: parsedBody.brandId,
-        },
+          id: parsedBody.brandId
+        }
       });
 
       if (!hasBrand) {
         throw HttpErrorHandler.customError({
           statusCode: ErrorStatusCode.NOT_FOUND_ERROR,
           errorCode: ProductResponseCode.BRAND_NOT_FOUND,
-          message: "brand not found.",
+          message: "brand not found."
         });
       }
 
       const hasProduct = await this.productRepository.findOne({
         params: {
           name: parsedBody.name,
-          brandId: parsedBody.brandId,
-        },
+          brandId: parsedBody.brandId
+        }
       });
 
       if (hasProduct) {
         throw HttpErrorHandler.customError({
           statusCode: ErrorStatusCode.CONFLICT_ERROR,
           errorCode: ProductResponseCode.PRODUCT_ALREADY_REGISTERED,
-          message: "product with this name and brand already exists.",
+          message: "product with this name and brand already exists."
         });
       }
 
       await this.productRepository.create({
         body: {
-          ...parsedBody,
-        },
+          ...parsedBody
+        }
       });
 
       return HttpResponseHandler.success(
