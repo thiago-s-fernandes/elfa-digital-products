@@ -1,0 +1,174 @@
+{
+	"info": {
+		"_postman_id": "6c8b870e-837b-441d-b67b-3e0b16c7efe1",
+		"name": "Elfa",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20803334"
+	},
+	"item": [
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Find All",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/products",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "0",
+									"disabled": true
+								},
+								{
+									"key": "take",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "orderBy",
+									"value": "createdAt",
+									"disabled": true
+								},
+								{
+									"key": "orderDirection",
+									"value": "asc",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "adidas",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Chinelo\",\n    \"price\": 150,\n    \"brandId\": \"b2d051cd-eeb5-4f81-b58b-0d621eceb121\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/products",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Brand",
+			"item": [
+				{
+					"name": "Find All",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/brands",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"brands"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "0",
+									"disabled": true
+								},
+								{
+									"key": "take",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "orderBy",
+									"value": "createdAt",
+									"disabled": true
+								},
+								{
+									"key": "orderDirection",
+									"value": "asc",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "Adidas",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "http://localhost:3000",
+			"type": "string"
+		}
+	]
+}

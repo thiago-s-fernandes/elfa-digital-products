@@ -1,0 +1,20 @@
+services:
+  elfa_db:
+    image: postgres:17.4
+    container_name: elfa_db
+    restart: always
+    ports:
+      - "5435:5432"
+    env_file:
+      - .env
+    volumes:
+      - data:/var/lib/postgresql/data
+    networks:
+      - elfa_network
+
+volumes:
+  data:
+
+networks:
+  elfa_network:
+    driver: bridge
