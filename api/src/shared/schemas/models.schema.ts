@@ -8,13 +8,13 @@ export const uuidSchema = z
   .uuid()
   .openapi({ example: "a9b8c7d6-e5d4-c3b2-a1b2-c3d4e5f6a7b8" });
 export const productNameSchema = stringSchema.openapi({
-  example: "Chinelo Calm",
+  example: "Chinelo Calm"
 });
 export const brandNameSchema = stringSchema.openapi({ example: "Nike" });
 export const descriptionSchema = stringSchema.openapi({
-  example: "Description",
+  example: "Description"
 });
-export const imageSchema = z.string().nonempty().base64();
+export const imageSchema = z.string().nonempty();
 export const priceSchema = z.number().positive();
 export const dateSchema = z
   .date()
@@ -26,7 +26,7 @@ export const brandSchema = z
     id: uuidSchema,
     name: brandNameSchema,
     createdAt: dateSchema,
-    updatedAt: dateSchema,
+    updatedAt: dateSchema
   })
   .strict();
 
@@ -40,6 +40,6 @@ export const productSchema = z
     image: imageSchema.nullable(),
     brand: brandSchema.omit({ createdAt: true, updatedAt: true }),
     createdAt: dateSchema,
-    updatedAt: dateSchema,
+    updatedAt: dateSchema
   })
   .strict();
