@@ -67,6 +67,7 @@ networks:
 ##### Passo 1: Crie o arquivo `.env` e configure dessa forma
 
 ```env
+CORS_ORIGIN="http://localhost:8080"
 API_PORT="3000"
 API_HOST="0.0.0.0"
 POSTGRES_PASSWORD="postgres"
