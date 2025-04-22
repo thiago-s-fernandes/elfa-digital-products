@@ -43,9 +43,9 @@ class FastifyServer {
 
   private setupPlugins(): void {
     this.app.register(cors, {
-      origin: "http://localhost:8080",
+      origin: process.env.CORS_ORIGIN,
       methods: ["GET", "POST"],
-      allowedHeaders: ["Content-Type", "Authorization"]
+      allowedHeaders: ["Content-Type"]
     });
     this.app.register(fastifyZodOpenApiPlugin);
     this.app.register(fastifySwagger, {
