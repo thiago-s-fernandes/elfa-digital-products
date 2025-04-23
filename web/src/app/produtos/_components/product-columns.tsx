@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
-import { Product } from "@/hooks/useGetProducts";
+import { Product } from "@/types/models";
 import { Skeleton } from "@/components/ui/skeleton";
 import Image from "next/image";
 
@@ -17,7 +17,7 @@ export const productColumns: ColumnDef<Product>[] = [
       return (
         <div className={cn("w-[80px] h-[80px] flex items-center justify-center")}>
           <Image
-            src={imageValue ?? "/placeholder.svg"}
+            src={imageValue ?? "/product-table/placeholder.svg"}
             width={80}
             height={80}
             alt={row.getValue("name")}
