@@ -13,13 +13,7 @@ import {
   type BrandFindAllQuerySchema,
 } from "@/schemas/brand.schema";
 
-export async function routes({
-  app,
-  prisma,
-}: {
-  app: FastifyTypedInstance;
-  prisma: PrismaClient;
-}) {
+export async function routes({ app, prisma }: { app: FastifyTypedInstance; prisma: PrismaClient }) {
   const brandRepository = new BrandRepository(prisma);
   const brandService = new BrandService(brandRepository);
   const brandController = new BrandController(brandService);
@@ -46,6 +40,6 @@ export async function routes({
       const response = await brandController.handleFindAll({ query });
 
       return reply.status(response.statusCode).send(response);
-    }
+    },
   );
 }

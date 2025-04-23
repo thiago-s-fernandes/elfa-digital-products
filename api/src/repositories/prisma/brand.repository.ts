@@ -1,9 +1,6 @@
 import type { BaseBrandRepository } from "@/repositories/interfaces/brand.interface";
 import type { PrismaClient } from "@prisma/client";
-import type {
-  BrandFindAllInputSchema,
-  BrandFindOneInputSchema
-} from "@/schemas/brand.schema";
+import type { BrandFindAllInputSchema, BrandFindOneInputSchema } from "@/schemas/brand.schema";
 
 export class BrandRepository implements BaseBrandRepository {
   constructor(private readonly prisma: PrismaClient) {}
@@ -16,7 +13,7 @@ export class BrandRepository implements BaseBrandRepository {
       orderDirection = "desc",
       page = "1",
       per_page = "10",
-      name
+      name,
     } = query ?? {};
 
     const parsedPage = Math.max(parseInt(page), 1);
@@ -25,36 +22,36 @@ export class BrandRepository implements BaseBrandRepository {
 
     const where = {
       ...(name && {
-        name: { contains: name, mode: "insensitive" as const }
-      })
+        name: { contains: name, mode: "insensitive" as const },
+      }),
     };
 
     const brands = await this.prisma.brand.findMany({
       where,
       orderBy: {
-        [orderBy]: orderDirection
+        [orderBy]: orderDirection,
       },
       skip,
-      take: parsedPerPage
+      take: parsedPerPage,
     });
 
     const total = await this.prisma.brand.count({ where });
 
     return {
       brands,
-      total
+      total,
     };
   }
 
   public async findOne(input: BrandFindOneInputSchema) {
     const {
-      params: { id }
+      params: { id },
     } = input;
 
     const brand = await this.prisma.brand.findUnique({
       where: {
-        id
-      }
+        id,
+      },
     });
 
     return brand;

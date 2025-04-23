@@ -4,22 +4,20 @@ import type { BaseBrandRepository } from "@/repositories/interfaces/brand.interf
 import {
   brandFindAllQuerySchema,
   type BrandFindAllInputSchema,
-  type BrandFindAllSuccessResponseSchema
+  type BrandFindAllSuccessResponseSchema,
 } from "@/schemas/brand.schema";
 
 export class BrandService {
   constructor(private readonly brandRepository: BaseBrandRepository) {}
 
-  public async findAll(
-    input: BrandFindAllInputSchema
-  ): Promise<BrandFindAllSuccessResponseSchema> {
+  public async findAll(input: BrandFindAllInputSchema): Promise<BrandFindAllSuccessResponseSchema> {
     try {
       const { query } = input;
 
       const parsedQuery = brandFindAllQuerySchema.parse(query);
 
       const data = await this.brandRepository.findAll({
-        query: parsedQuery
+        query: parsedQuery,
       });
 
       return HttpResponseHandler.success(data, SuccessCodes.SUCCESS);

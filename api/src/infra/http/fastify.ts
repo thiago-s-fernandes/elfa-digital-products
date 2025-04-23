@@ -6,24 +6,16 @@ import cors from "@fastify/cors";
 import fastifySwagger from "@fastify/swagger";
 import prisma from "@/infra/database/prisma";
 import ScalarApiReference from "@scalar/fastify-api-reference";
-import {
-  ErrorStatusCode,
-  HttpErrorHandler,
-  ErrorCode
-} from "@/utils/http-errors";
+import { ErrorStatusCode, HttpErrorHandler, ErrorCode } from "@/utils/http-errors";
 import {
   fastifyZodOpenApiPlugin,
   fastifyZodOpenApiTransform,
   fastifyZodOpenApiTransformObject,
   serializerCompiler,
   type FastifyZodOpenApiTypeProvider,
-  validatorCompiler
+  validatorCompiler,
 } from "fastify-zod-openapi";
-import Fastify, {
-  type FastifyError,
-  type FastifyReply,
-  type FastifyRequest
-} from "fastify";
+import Fastify, { type FastifyError, type FastifyReply, type FastifyRequest } from "fastify";
 import type { FastifyTypedInstance } from "@/@types/fastify";
 import type { PrismaClient } from "@prisma/client";
 
@@ -45,18 +37,18 @@ class FastifyServer {
     this.app.register(cors, {
       origin: process.env.CORS_ORIGIN,
       methods: ["GET", "POST"],
-      allowedHeaders: ["Content-Type"]
+      allowedHeaders: ["Content-Type"],
     });
     this.app.register(fastifyZodOpenApiPlugin);
     this.app.register(fastifySwagger, {
       openapi: {
-        info: { title: "Elfa - Digital Products", version: "1.0.0" }
+        info: { title: "Elfa - Digital Products", version: "1.0.0" },
       },
       transform: fastifyZodOpenApiTransform,
-      transformObject: fastifyZodOpenApiTransformObject
+      transformObject: fastifyZodOpenApiTransformObject,
     });
     this.app.register(ScalarApiReference, {
-      routePrefix: "/docs"
+      routePrefix: "/docs",
     });
   }
 
@@ -76,7 +68,7 @@ class FastifyServer {
         error: ErrorCode.NOT_FOUND_ERROR,
         message: `Route ${request.method} ${request.url} not found`,
         name: ErrorCode.NOT_FOUND_ERROR,
-        statusCode: ErrorStatusCode.NOT_FOUND_ERROR
+        statusCode: ErrorStatusCode.NOT_FOUND_ERROR,
       });
 
       reply.status(ErrorStatusCode.NOT_FOUND_ERROR).send(notFoundError);
@@ -85,7 +77,7 @@ class FastifyServer {
     this.app.setErrorHandler(function (
       error: FastifyError,
       _request: FastifyRequest,
-      reply: FastifyReply
+      reply: FastifyReply,
     ) {
       if (error instanceof HttpErrorHandler) {
         const customErr = HttpResponseHandler.error(error);
@@ -98,7 +90,7 @@ class FastifyServer {
           error: ErrorCode.BAD_REQUEST_ERROR,
           message: error.message,
           name: error.name,
-          statusCode: ErrorStatusCode.BAD_REQUEST_ERROR
+          statusCode: ErrorStatusCode.BAD_REQUEST_ERROR,
         });
 
         return reply.status(error.statusCode).send(badRequestError);
@@ -108,7 +100,7 @@ class FastifyServer {
         error: ErrorCode.INTERNAL_SERVER_ERROR,
         message: "Something went wrong on the server",
         name: ErrorCode.INTERNAL_SERVER_ERROR,
-        statusCode: ErrorStatusCode.INTERNAL_SERVER_ERROR
+        statusCode: ErrorStatusCode.INTERNAL_SERVER_ERROR,
       });
 
       return reply.status(customErr.statusCode).send(customErr);
@@ -122,7 +114,7 @@ class FastifyServer {
       this.app.listen(
         {
           port: Number(process.env.API_PORT),
-          host: process.env.API_HOST
+          host: process.env.API_HOST,
         },
         (err, address) => {
           if (err) {
@@ -131,7 +123,7 @@ class FastifyServer {
           }
           this.app.log.info(`Server listening at ${address}`);
           console.info(`Server listening at ${address}`);
-        }
+        },
       );
     } catch (error) {
       this.app.log.error("Error connecting to Prisma:", error);

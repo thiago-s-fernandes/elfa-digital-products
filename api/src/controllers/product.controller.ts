@@ -10,7 +10,7 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   public async handleFindAll(
-    input: ProductFindAllInputSchema
+    input: ProductFindAllInputSchema,
   ): Promise<ProductFindAllSuccessResponseSchema> {
     const response = await this.productService.findAll(input);
 
@@ -18,7 +18,7 @@ export class ProductController {
   }
 
   public async handleCreate(
-    input: ProductCreateInputSchema
+    input: ProductCreateInputSchema,
   ): Promise<ProductCreateSuccessResponseSchema> {
     const response = await this.productService.create(input);
 

@@ -9,18 +9,18 @@ import {
   type ProductFindAllSuccessResponseSchema,
   productCreateBodySchema,
   productFindAllQuerySchema,
-  ProductResponseCode
+  ProductResponseCode,
 } from "@/schemas/product.schema";
 import sharp from "sharp";
 
 export class ProductService {
   constructor(
     private readonly productRepository: BaseProductRepository,
-    private readonly brandRepository: BaseBrandRepository
+    private readonly brandRepository: BaseBrandRepository,
   ) {}
 
   public async findAll(
-    input: ProductFindAllInputSchema
+    input: ProductFindAllInputSchema,
   ): Promise<ProductFindAllSuccessResponseSchema> {
     try {
       const { query } = input;
@@ -28,7 +28,7 @@ export class ProductService {
       const parsedQuery = productFindAllQuerySchema.parse(query);
 
       const data = await this.productRepository.findAll({
-        query: parsedQuery
+        query: parsedQuery,
       });
 
       return HttpResponseHandler.success(data, SuccessCodes.SUCCESS);
@@ -42,7 +42,7 @@ export class ProductService {
   }
 
   public async create(
-    input: ProductCreateInputSchema
+    input: ProductCreateInputSchema,
   ): Promise<ProductCreateSuccessResponseSchema> {
     try {
       const { body } = input;
@@ -51,30 +51,30 @@ export class ProductService {
 
       const hasBrand = await this.brandRepository.findOne({
         params: {
-          id: parsedBody.brandId
-        }
+          id: parsedBody.brandId,
+        },
       });
 
       if (!hasBrand) {
         throw HttpErrorHandler.customError({
           statusCode: ErrorStatusCode.NOT_FOUND_ERROR,
           errorCode: ProductResponseCode.BRAND_NOT_FOUND,
-          message: "brand not found."
+          message: "brand not found.",
         });
       }
 
       const hasProduct = await this.productRepository.findOne({
         params: {
           name: parsedBody.name,
-          brandId: parsedBody.brandId
-        }
+          brandId: parsedBody.brandId,
+        },
       });
 
       if (hasProduct) {
         throw HttpErrorHandler.customError({
           statusCode: ErrorStatusCode.CONFLICT_ERROR,
           errorCode: ProductResponseCode.PRODUCT_ALREADY_REGISTERED,
-          message: "product with this name and brand already exists."
+          message: "product with this name and brand already exists.",
         });
       }
       if (parsedBody.image) {
@@ -109,9 +109,7 @@ export class ProductService {
                 .toBuffer();
               break;
             default:
-              compressedImageBuffer = await sharp(buffer)
-                .resize(300)
-                .toBuffer();
+              compressedImageBuffer = await sharp(buffer).resize(300).toBuffer();
               break;
           }
 
@@ -122,13 +120,13 @@ export class ProductService {
 
       await this.productRepository.create({
         body: {
-          ...parsedBody
-        }
+          ...parsedBody,
+        },
       });
 
       return HttpResponseHandler.success(
         { message: "product created with successfully." },
-        SuccessCodes.CREATED
+        SuccessCodes.CREATED,
       );
     } catch (error) {
       if (error instanceof HttpErrorHandler) {

@@ -2,7 +2,7 @@ import type { Brand, Product } from "@prisma/client";
 import type {
   ProductCreateInputSchema,
   ProductFindOneInputSchema,
-  ProductFindAllInputSchema
+  ProductFindAllInputSchema,
 } from "@/schemas/product.schema";
 
 type BrandWithoutDates = Omit<Brand, "createdAt" | "updatedAt">;

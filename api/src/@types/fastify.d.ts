@@ -3,7 +3,7 @@ import type {
   RawServerDefault,
   RawRequestDefaultExpression,
   RawReplyDefaultExpression,
-  FastifyBaseLogger
+  FastifyBaseLogger,
 } from "fastify";
 import type { FastifyZodOpenApiTypeProvider } from "fastify-zod-openapi";
 

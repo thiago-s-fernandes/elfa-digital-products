@@ -8,7 +8,7 @@ export class BrandController {
   constructor(private readonly brandService: BrandService) {}
 
   public async handleFindAll(
-    input: BrandFindAllInputSchema
+    input: BrandFindAllInputSchema,
   ): Promise<BrandFindAllSuccessResponseSchema> {
     const response = await this.brandService.findAll(input);
 

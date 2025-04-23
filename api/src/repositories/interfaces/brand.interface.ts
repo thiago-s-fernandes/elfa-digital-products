@@ -1,8 +1,5 @@
 import type { Brand } from "@prisma/client";
-import type {
-  BrandFindAllInputSchema,
-  BrandFindOneInputSchema
-} from "@/schemas/brand.schema";
+import type { BrandFindAllInputSchema, BrandFindOneInputSchema } from "@/schemas/brand.schema";
 
 type FindOnePromiseReturn = Promise<Brand | null>;
 type FindAllPromiseReturn = Promise<{

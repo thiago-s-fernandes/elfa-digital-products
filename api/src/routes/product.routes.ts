@@ -19,13 +19,7 @@ import {
   type ProductFindAllQuerySchema,
 } from "@/schemas/product.schema";
 
-export async function routes({
-  app,
-  prisma,
-}: {
-  app: FastifyTypedInstance;
-  prisma: PrismaClient;
-}) {
+export async function routes({ app, prisma }: { app: FastifyTypedInstance; prisma: PrismaClient }) {
   const brandRepository = new BrandRepository(prisma);
   const productRepository = new ProductRepository(prisma);
   const productService = new ProductService(productRepository, brandRepository);
@@ -53,7 +47,7 @@ export async function routes({
       const response = await productController.handleFindAll({ query });
 
       return reply.status(response.statusCode).send(response);
-    }
+    },
   );
 
   app.post(
@@ -80,6 +74,6 @@ export async function routes({
       const response = await productController.handleCreate({ body });
 
       return reply.status(response.statusCode).send(response);
-    }
+    },
   );
 }

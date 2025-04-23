@@ -5,7 +5,7 @@ export enum ErrorStatusCode {
   NOT_FOUND_ERROR = 404,
   CONFLICT_ERROR = 409,
   UNPROCESSABLE_ENTITY_ERROR = 422,
-  INTERNAL_SERVER_ERROR = 500
+  INTERNAL_SERVER_ERROR = 500,
 }
 
 export enum ErrorCode {
@@ -15,7 +15,7 @@ export enum ErrorCode {
   NOT_FOUND_ERROR = "NOT_FOUND_ERROR",
   CONFLICT_ERROR = "CONFLICT_ERROR",
   UNPROCESSABLE_ENTITY_ERROR = "UNPROCESSABLE_ENTITY_ERROR",
-  INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR"
+  INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR",
 }
 
 export interface HttpError<E> {
@@ -40,7 +40,7 @@ export class HttpErrorHandler<E> extends Error implements HttpError<E> {
   static customError<E = ErrorCode>({
     statusCode,
     errorCode,
-    message
+    message,
   }: {
     statusCode: ErrorStatusCode;
     message: string;
@@ -49,7 +49,7 @@ export class HttpErrorHandler<E> extends Error implements HttpError<E> {
     return new HttpErrorHandler({
       statusCode,
       error: errorCode,
-      message
+      message,
     });
   }
 
@@ -57,7 +57,7 @@ export class HttpErrorHandler<E> extends Error implements HttpError<E> {
     return new HttpErrorHandler({
       statusCode: ErrorStatusCode.BAD_REQUEST_ERROR,
       error: ErrorCode.BAD_REQUEST_ERROR as E,
-      message
+      message,
     });
   }
 
@@ -65,7 +65,7 @@ export class HttpErrorHandler<E> extends Error implements HttpError<E> {
     return new HttpErrorHandler({
       statusCode: ErrorStatusCode.NOT_FOUND_ERROR,
       error: ErrorCode.NOT_FOUND_ERROR as E,
-      message
+      message,
     });
   }
 
@@ -73,17 +73,15 @@ export class HttpErrorHandler<E> extends Error implements HttpError<E> {
     return new HttpErrorHandler({
       statusCode: ErrorStatusCode.UNAUTHORIZED_ERROR,
       error: ErrorCode.UNAUTHORIZED_ERROR as E,
-      message
+      message,
     });
   }
 
-  static internalServerError<E = ErrorCode>(
-    message = "internal server error."
-  ) {
+  static internalServerError<E = ErrorCode>(message = "internal server error.") {
     return new HttpErrorHandler({
       statusCode: ErrorStatusCode.INTERNAL_SERVER_ERROR,
       error: ErrorCode.INTERNAL_SERVER_ERROR as E,
-      message
+      message,
     });
   }
 }

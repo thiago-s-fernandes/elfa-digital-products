@@ -5,25 +5,21 @@ import {
   errBadRequestErrorResponseSchema,
   errForbiddenErrorResponseSchema,
   errInternalServerErrorResponseSchema,
-  errNotFoundErrorResponseSchema
+  errNotFoundErrorResponseSchema,
 } from "@/shared/schemas/errors.schema";
-import {
-  brandNameSchema,
-  brandSchema,
-  uuidSchema
-} from "@/shared/schemas/models.schema";
+import { brandNameSchema, brandSchema, uuidSchema } from "@/shared/schemas/models.schema";
 
 // Find One
 export const brandFindOneParamsSchema = z
   .object({
-    id: uuidSchema
+    id: uuidSchema,
   })
   .strict();
 export type BrandFindOneParamsSchema = z.infer<typeof brandFindOneParamsSchema>;
 
 export const brandFindOneInputSchema = z
   .object({
-    params: brandFindOneParamsSchema
+    params: brandFindOneParamsSchema,
   })
   .strict();
 export type BrandFindOneInputSchema = z.infer<typeof brandFindOneInputSchema>;
@@ -32,35 +28,21 @@ export type BrandFindOneInputSchema = z.infer<typeof brandFindOneInputSchema>;
 export const brandFindAllQuerySchema = z
   .object({
     name: brandNameSchema.optional(),
-    page: z
-      .string()
-      .regex(/^\d+$/)
-      .default("1")
-      .optional()
-      .openapi({ example: "1" }),
-    per_page: z
-      .string()
-      .regex(/^\d+$/)
-      .default("10")
-      .optional()
-      .openapi({ example: "10" }),
+    page: z.string().regex(/^\d+$/).default("1").optional().openapi({ example: "1" }),
+    per_page: z.string().regex(/^\d+$/).default("10").optional().openapi({ example: "10" }),
     orderBy: z
       .enum(["name", "createdAt", "updatedAt"])
       .default("createdAt")
       .optional()
       .openapi({ example: "createdAt" }),
-    orderDirection: z
-      .enum(["asc", "desc"])
-      .default("desc")
-      .optional()
-      .openapi({ example: "desc" })
+    orderDirection: z.enum(["asc", "desc"]).default("desc").optional().openapi({ example: "desc" }),
   })
   .strict();
 export type BrandFindAllQuerySchema = z.infer<typeof brandFindAllQuerySchema>;
 
 export const brandFindAllInputSchema = z
   .object({
-    query: brandFindAllQuerySchema
+    query: brandFindAllQuerySchema,
   })
   .strict();
 export type BrandFindAllInputSchema = z.infer<typeof brandFindAllInputSchema>;
@@ -69,21 +51,15 @@ export const brandFindAllSuccessResponseSchema = z
   .object({
     data: z.object({
       brands: z.array(brandSchema),
-      total: z.number()
+      total: z.number(),
     }),
-    statusCode: z.literal(SuccessCodes.SUCCESS)
+    statusCode: z.literal(SuccessCodes.SUCCESS),
   })
   .strict();
-export type BrandFindAllSuccessResponseSchema = z.infer<
-  typeof brandFindAllSuccessResponseSchema
->;
+export type BrandFindAllSuccessResponseSchema = z.infer<typeof brandFindAllSuccessResponseSchema>;
 
 // Errors
-export const brandErrBadRequestErrorResponseSchema =
-  errBadRequestErrorResponseSchema;
-export const brandErrForbiddenErrorResponseSchema =
-  errForbiddenErrorResponseSchema;
-export const brandErrNotFoundErrorResponseSchema =
-  errNotFoundErrorResponseSchema;
-export const brandErrInternalServerErrorResponseSchema =
-  errInternalServerErrorResponseSchema;
+export const brandErrBadRequestErrorResponseSchema = errBadRequestErrorResponseSchema;
+export const brandErrForbiddenErrorResponseSchema = errForbiddenErrorResponseSchema;
+export const brandErrNotFoundErrorResponseSchema = errNotFoundErrorResponseSchema;
+export const brandErrInternalServerErrorResponseSchema = errInternalServerErrorResponseSchema;

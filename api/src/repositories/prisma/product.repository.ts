@@ -3,7 +3,7 @@ import { type PrismaClient } from "@prisma/client";
 import type {
   ProductCreateInputSchema,
   ProductFindOneInputSchema,
-  ProductFindAllInputSchema
+  ProductFindAllInputSchema,
 } from "@/schemas/product.schema";
 
 export class ProductRepository implements BaseProductRepository {
@@ -18,7 +18,7 @@ export class ProductRepository implements BaseProductRepository {
       page = "1",
       per_page = "10",
       name,
-      search
+      search,
     } = query ?? {};
 
     const parsedPage = Math.max(parseInt(page), 1);
@@ -27,9 +27,7 @@ export class ProductRepository implements BaseProductRepository {
 
     const where = {
       AND: [
-        ...(name
-          ? [{ name: { contains: name, mode: "insensitive" as const } }]
-          : []),
+        ...(name ? [{ name: { contains: name, mode: "insensitive" as const } }] : []),
         ...(search
           ? [
               {
@@ -37,34 +35,34 @@ export class ProductRepository implements BaseProductRepository {
                   {
                     name: {
                       contains: search,
-                      mode: "insensitive" as const
-                    }
+                      mode: "insensitive" as const,
+                    },
                   },
                   {
                     description: {
                       contains: search,
-                      mode: "insensitive" as const
-                    }
+                      mode: "insensitive" as const,
+                    },
                   },
                   {
                     brand: {
                       name: {
                         contains: search,
-                        mode: "insensitive" as const
-                      }
-                    }
-                  }
-                ]
-              }
+                        mode: "insensitive" as const,
+                      },
+                    },
+                  },
+                ],
+              },
             ]
-          : [])
-      ]
+          : []),
+      ],
     };
 
     const products = await this.prisma.product.findMany({
       where,
       orderBy: {
-        [orderBy]: orderDirection
+        [orderBy]: orderDirection,
       },
       skip,
       take: parsedPerPage,
@@ -73,32 +71,32 @@ export class ProductRepository implements BaseProductRepository {
         brand: {
           select: {
             id: true,
-            name: true
-          }
-        }
-      }
+            name: true,
+          },
+        },
+      },
     });
 
     const total = await this.prisma.product.count({ where });
 
     return {
       products,
-      total
+      total,
     };
   }
 
   public async findOne(input: ProductFindOneInputSchema) {
     const {
-      params: { name, brandId }
+      params: { name, brandId },
     } = input;
 
     const product = await this.prisma.product.findUnique({
       where: {
         name_brandId: {
           name,
-          brandId
-        }
-      }
+          brandId,
+        },
+      },
     });
 
     return product;
@@ -109,8 +107,8 @@ export class ProductRepository implements BaseProductRepository {
 
     const product = await this.prisma.product.create({
       data: {
-        ...body
-      }
+        ...body,
+      },
     });
 
     return product;
