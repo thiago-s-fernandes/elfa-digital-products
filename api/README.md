@@ -1,4 +1,4 @@
-## Elfa Digital Products - API
+# Elfa Digital Products - API
 
 API RESTful para gerenciamento de produtos e marcas, construída com Fastify, Prisma ORM e validações com Zod.
 
