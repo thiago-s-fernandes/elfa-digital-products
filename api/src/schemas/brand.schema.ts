@@ -32,13 +32,13 @@ export type BrandFindOneInputSchema = z.infer<typeof brandFindOneInputSchema>;
 export const brandFindAllQuerySchema = z
   .object({
     name: brandNameSchema.optional(),
-    skip: z
+    page: z
       .string()
       .regex(/^\d+$/)
-      .default("0")
+      .default("1")
       .optional()
-      .openapi({ example: "0" }),
-    take: z
+      .openapi({ example: "1" }),
+    per_page: z
       .string()
       .regex(/^\d+$/)
       .default("10")

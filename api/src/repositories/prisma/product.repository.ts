@@ -15,14 +15,15 @@ export class ProductRepository implements BaseProductRepository {
     const {
       orderBy = "createdAt",
       orderDirection = "desc",
-      skip = "0",
-      take = "10",
+      page = "1",
+      per_page = "10",
       name,
       search
     } = query ?? {};
 
-    const parsedSkip = parseInt(skip);
-    const parsedTake = parseInt(take);
+    const parsedPage = Math.max(parseInt(page), 1);
+    const parsedPerPage = Math.max(parseInt(per_page), 1);
+    const skip = (parsedPage - 1) * parsedPerPage;
 
     const where = {
       AND: [
@@ -65,8 +66,8 @@ export class ProductRepository implements BaseProductRepository {
       orderBy: {
         [orderBy]: orderDirection
       },
-      skip: parsedSkip,
-      take: parsedTake,
+      skip,
+      take: parsedPerPage,
       omit: { brandId: true },
       include: {
         brand: {
@@ -79,10 +80,14 @@ export class ProductRepository implements BaseProductRepository {
     });
 
     const totalItems = await this.prisma.product.count({ where });
-    const currentPage = Math.floor(parsedSkip / parsedTake) + 1;
-    const totalPages = Math.ceil(totalItems / parsedTake);
+    const totalPages = Math.ceil(totalItems / parsedPerPage);
 
-    return { products, totalItems, currentPage, totalPages };
+    return {
+      products,
+      totalItems,
+      currentPage: parsedPage,
+      totalPages
+    };
   }
 
   public async findOne(input: ProductFindOneInputSchema) {

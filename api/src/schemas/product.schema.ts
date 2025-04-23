@@ -48,15 +48,16 @@ export const productFindAllQuerySchema = z
   .object({
     search: stringSchema.optional(),
     name: productNameSchema.optional(),
-    skip: z
+    page: z
       .string()
       .regex(/^\d+$/)
-      .default("0")
+      .default("1")
       .optional()
-      .openapi({ example: "0" }),
-    take: z
+      .openapi({ example: "1" }),
+    per_page: z
       .string()
       .regex(/^\d+$/)
+      .refine(val => parseInt(val) <= 50, { message: "invalid input, max 50" })
       .default("10")
       .optional()
       .openapi({ example: "10" }),

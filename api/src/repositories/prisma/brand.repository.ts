@@ -14,38 +14,39 @@ export class BrandRepository implements BaseBrandRepository {
     const {
       orderBy = "createdAt",
       orderDirection = "desc",
-      skip = "0",
-      take = "10",
+      page = "1",
+      per_page = "10",
       name
     } = query ?? {};
 
-    const parsedSkip = parseInt(skip);
-    const parsedTake = parseInt(take);
+    const parsedPage = Math.max(parseInt(page), 1);
+    const parsedPerPage = Math.max(parseInt(per_page), 1);
+    const skip = (parsedPage - 1) * parsedPerPage;
+
+    const where = {
+      ...(name && {
+        name: { contains: name, mode: "insensitive" as const }
+      })
+    };
 
     const brands = await this.prisma.brand.findMany({
-      where: {
-        ...(name && {
-          name: { contains: name, mode: "insensitive" }
-        })
-      },
+      where,
       orderBy: {
         [orderBy]: orderDirection
       },
-      skip: parsedSkip,
-      take: parsedTake
+      skip,
+      take: parsedPerPage
     });
 
-    const totalItems = await this.prisma.brand.count({
-      where: {
-        ...(name && {
-          name: { contains: name, mode: "insensitive" }
-        })
-      }
-    });
-    const currentPage = Math.floor(parsedSkip / parsedTake) + 1;
-    const totalPages = Math.ceil(totalItems / parsedTake);
+    const totalItems = await this.prisma.brand.count({ where });
+    const totalPages = Math.ceil(totalItems / parsedPerPage);
 
-    return { brands, totalItems, currentPage, totalPages };
+    return {
+      brands,
+      totalItems,
+      currentPage: parsedPage,
+      totalPages
+    };
   }
 
   public async findOne(input: BrandFindOneInputSchema) {
