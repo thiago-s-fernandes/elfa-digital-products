@@ -7,9 +7,7 @@ import type {
 type FindOnePromiseReturn = Promise<Brand | null>;
 type FindAllPromiseReturn = Promise<{
   brands: Brand[];
-  totalItems: number;
-  currentPage: number;
-  totalPages: number;
+  total: number;
 }>;
 
 export interface BaseBrandRepository {

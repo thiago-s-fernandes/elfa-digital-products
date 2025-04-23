@@ -90,9 +90,7 @@ export const productFindAllSuccessResponseSchema = z
   .object({
     data: z.object({
       products: z.array(productSchema),
-      totalItems: z.number(),
-      currentPage: z.number(),
-      totalPages: z.number()
+      total: z.number()
     }),
     statusCode: z.literal(SuccessCodes.SUCCESS)
   })

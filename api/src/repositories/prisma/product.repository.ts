@@ -79,14 +79,11 @@ export class ProductRepository implements BaseProductRepository {
       }
     });
 
-    const totalItems = await this.prisma.product.count({ where });
-    const totalPages = Math.ceil(totalItems / parsedPerPage);
+    const total = await this.prisma.product.count({ where });
 
     return {
       products,
-      totalItems,
-      currentPage: parsedPage,
-      totalPages
+      total
     };
   }
 

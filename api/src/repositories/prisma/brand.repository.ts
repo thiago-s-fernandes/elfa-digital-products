@@ -38,14 +38,11 @@ export class BrandRepository implements BaseBrandRepository {
       take: parsedPerPage
     });
 
-    const totalItems = await this.prisma.brand.count({ where });
-    const totalPages = Math.ceil(totalItems / parsedPerPage);
+    const total = await this.prisma.brand.count({ where });
 
     return {
       brands,
-      totalItems,
-      currentPage: parsedPage,
-      totalPages
+      total
     };
   }
 

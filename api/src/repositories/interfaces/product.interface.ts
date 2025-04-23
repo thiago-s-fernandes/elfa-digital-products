@@ -10,9 +10,7 @@ type ProductWithBrand = Omit<Product, "brandId"> & { brand: BrandWithoutDates };
 type FindOnePromiseReturn = Promise<Product | null>;
 type FindAllPromiseReturn = Promise<{
   products: ProductWithBrand[];
-  totalItems: number;
-  currentPage: number;
-  totalPages: number;
+  total: number;
 }>;
 type CreatePromiseReturn = Promise<Product>;
 
