@@ -9,7 +9,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Container from "@/components/layout/container";
 import Link from "next/link";
 import ProductTable from "@/components/ui/data-table";
-import useGetProducts, { Product } from "@/hooks/useGetProducts";
+import useGetProducts from "@/hooks/useGetProducts";
+import type { Product } from "@/types/models";
 
 export default function Produtos(): React.JSX.Element {
   const searchParams = useSearchParams();

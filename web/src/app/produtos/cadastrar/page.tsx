@@ -34,9 +34,9 @@ import useCreateProduct from "@/hooks/useCreateProduct";
 
 export default function Cadastro(): React.JSX.Element {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const { mutateAsync: createProduct, isPending: isSubmitting } = useCreateProduct();
 
   const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
-
   const productSchema = z.object({
     name: z
       .string()
@@ -52,7 +52,6 @@ export default function Cadastro(): React.JSX.Element {
       .optional(),
     image: z.any().optional(),
   });
-
   type ProductFormValues = z.infer<typeof productSchema>;
 
   const form = useForm<ProductFormValues>({
@@ -85,8 +84,6 @@ export default function Cadastro(): React.JSX.Element {
       form.setValue("image", "");
     }
   };
-
-  const { mutateAsync: createProduct, isPending: isSubmitting } = useCreateProduct();
 
   const onSubmit = async (values: ProductFormValues): Promise<void> => {
     const payload = {

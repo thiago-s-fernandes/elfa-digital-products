@@ -1,16 +1,5 @@
+import { Product } from "@/types/models";
 import { keepPreviousData, useQuery, type UseQueryResult } from "@tanstack/react-query";
-
-export interface Product {
-  id: number;
-  name: string;
-  price: number;
-  description: string | null;
-  image: string | null;
-  brand: {
-    id: string;
-    name: string;
-  };
-}
 
 export interface GetProductsData {
   data: {
