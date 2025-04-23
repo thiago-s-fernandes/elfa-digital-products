@@ -1,9 +1,4 @@
-import {
-  useMutation,
-  UseMutationResult,
-  useQueryClient
-} from "@tanstack/react-query";
-import { API_BASE_URL } from "./useGetProducts";
+import { useMutation, UseMutationResult, useQueryClient } from "@tanstack/react-query";
 
 interface CreateProductInput {
   name: string;
@@ -14,12 +9,12 @@ interface CreateProductInput {
 }
 
 export async function createProduct(data: CreateProductInput): Promise<void> {
-  const response = await fetch(`${API_BASE_URL}/products`, {
+  const response = await fetch(`${process.env.API_BASE_URL}/products`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
   });
 
   return response.json();
@@ -37,6 +32,6 @@ export default function useCreateProduct(): UseMutationResult<
     mutationFn: createProduct,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
-    }
+    },
   });
 }

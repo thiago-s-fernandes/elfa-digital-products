@@ -7,7 +7,7 @@ export default function Header(): React.JSX.Element {
     <header
       className={cn(
         "flex w-full z-[1] h-16 sticky top-0 bg-background",
-        "after:absolute after:bottom-0 after:h-[1px] after:left-0 after:transition-all after:duration-300 after:ease-in after:w-full after:bg-radial-[60%_100%_at_50%_100%] after:from-foreground/10 after:to-foreground/0"
+        "after:absolute after:bottom-0 after:h-[1px] after:left-0 after:transition-all after:duration-300 after:ease-in after:w-full after:bg-radial-[60%_100%_at_50%_100%] after:from-foreground/10 after:to-foreground/0",
       )}
       role="banner"
     >

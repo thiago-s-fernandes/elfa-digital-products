@@ -12,18 +12,8 @@ export default function Container({
   className,
 }: Props): React.JSX.Element {
   return (
-    <Component
-      className={cn(
-        "flex justify-center min-h-[calc(100dvh-128px)] w-full",
-        className
-      )}
-    >
-      <div
-        className={cn(
-          "elfa-container flex flex-col items-center my-8",
-          "lg:my-14"
-        )}
-      >
+    <Component className={cn("flex justify-center min-h-[calc(100dvh-128px)] w-full", className)}>
+      <div className={cn("elfa-container flex flex-col items-center my-8", "lg:my-14")}>
         {children}
       </div>
     </Component>

@@ -16,7 +16,7 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@/components/ui/card";
 import {
   FormField,
@@ -25,7 +25,7 @@ import {
   FormControl,
   FormDescription,
   FormMessage,
-  Form
+  Form,
 } from "@/components/ui/form";
 import Container from "@/components/layout/container";
 import Image from "next/image";
@@ -35,12 +35,7 @@ import useCreateProduct from "@/hooks/useCreateProduct";
 export default function Cadastro(): React.JSX.Element {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
-  const ACCEPTED_IMAGE_TYPES = [
-    "image/jpeg",
-    "image/jpg",
-    "image/png",
-    "image/webp"
-  ];
+  const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 
   const productSchema = z.object({
     name: z
@@ -57,15 +52,10 @@ export default function Cadastro(): React.JSX.Element {
       .optional(),
     image: z
       .string()
-      .refine(
-        val =>
-          /^data:image\/(jpeg|jpg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(val),
-        {
-          message:
-            "A imagem precisa estar em formato PNG, JPG, JPEG ou WebP com base64 válido."
-        }
-      )
-      .optional()
+      .refine(val => /^data:image\/(jpeg|jpg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(val), {
+        message: "A imagem precisa estar em formato PNG, JPG, JPEG ou WebP com base64 válido.",
+      })
+      .optional(),
   });
 
   type ProductFormValues = z.infer<typeof productSchema>;
@@ -77,13 +67,11 @@ export default function Cadastro(): React.JSX.Element {
       brandId: "",
       price: 0,
       description: "",
-      image: ""
-    }
+      image: "",
+    },
   });
 
-  const handleImageChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): Promise<void> => {
+  const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
     const file = event.target.files?.[0];
     if (file) {
       if (!ACCEPTED_IMAGE_TYPES.includes(file.type)) {
@@ -103,8 +91,7 @@ export default function Cadastro(): React.JSX.Element {
     }
   };
 
-  const { mutateAsync: createProduct, isPending: isSubmitting } =
-    useCreateProduct();
+  const { mutateAsync: createProduct, isPending: isSubmitting } = useCreateProduct();
 
   const onSubmit = async (values: ProductFormValues): Promise<void> => {
     const payload = {
@@ -112,7 +99,7 @@ export default function Cadastro(): React.JSX.Element {
       price: values.price,
       brandId: values.brandId,
       ...(values.image && { image: values.image }),
-      ...(values.description && { description: values.description })
+      ...(values.description && { description: values.description }),
     };
 
     const response = await createProduct(payload).catch(err => err);
@@ -124,9 +111,7 @@ export default function Cadastro(): React.JSX.Element {
           break;
 
         case "PRODUCT_ALREADY_REGISTERED":
-          toast.warning(
-            "O conjunto de nome do produto e marca já estão cadastrados."
-          );
+          toast.warning("O conjunto de nome do produto e marca já estão cadastrados.");
           break;
 
         case "INTERNAL_SERVER_ERROR":
@@ -154,19 +139,14 @@ export default function Cadastro(): React.JSX.Element {
                 <ArrowLeft size={16} />
               </Button>
             </Link>
-            <h1
-              className={cn("text-xl font-bold text-foreground", "lg:text-2xl")}
-            >
-              Novo Produto
-            </h1>
+            <h1 className={cn("text-xl font-bold text-foreground", "lg:text-2xl")}>Novo Produto</h1>
           </div>
         </div>
         <Card className={cn("w-full py-4 rounded-md")}>
           <CardHeader className={cn("border-b px-4 [.border-b]:pb-4")}>
             <CardTitle>Informações do Produto</CardTitle>
             <CardDescription>
-              Preencha todos os campos obrigatórios para cadastrar um novo
-              produto.
+              Preencha todos os campos obrigatórios para cadastrar um novo produto.
             </CardDescription>
           </CardHeader>
           <CardContent className={cn("px-4")}>
@@ -187,21 +167,15 @@ export default function Cadastro(): React.JSX.Element {
                                 "border-2 border-dashed rounded-lg p-4 transition duration-200 cursor-pointer h-[300px] w-[300px]",
                                 imagePreview
                                   ? "border-secondary bg-background"
-                                  : "border-muted-foreground/40 hover:border-secondary"
+                                  : "border-muted-foreground/40 hover:border-secondary",
                               )}
-                              onClick={() =>
-                                document
-                                  .getElementById("product-image")
-                                  ?.click()
-                              }
+                              onClick={() => document.getElementById("product-image")?.click()}
                             >
                               {imagePreview ? (
                                 <div className={cn("relative w-full h-full")}>
                                   <Image
                                     alt="Preview"
-                                    className={cn(
-                                      "h-full mx-auto object-contain"
-                                    )}
+                                    className={cn("h-full mx-auto object-contain")}
                                     height={300}
                                     src={imagePreview}
                                     width={300}
@@ -209,14 +183,9 @@ export default function Cadastro(): React.JSX.Element {
                                 </div>
                               ) : (
                                 <div
-                                  className={cn(
-                                    "h-full flex flex-col items-center justify-center"
-                                  )}
+                                  className={cn("h-full flex flex-col items-center justify-center")}
                                 >
-                                  <Upload
-                                    size={32}
-                                    className={cn("text-gray-400 mb-2")}
-                                  />
+                                  <Upload size={32} className={cn("text-gray-400 mb-2")} />
                                   <p className={cn("text-sm text-gray-500")}>
                                     Clique para fazer upload (opcional)
                                   </p>
@@ -235,21 +204,14 @@ export default function Cadastro(): React.JSX.Element {
                               />
                             </div>
                           </FormControl>
-                          <FormDescription>
-                            PNG, JPG, JPEG ou WebP.
-                          </FormDescription>
+                          <FormDescription>PNG, JPG, JPEG ou WebP.</FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
                   </div>
 
-                  <div
-                    className={cn(
-                      "flex flex-col w-full gap-4",
-                      "lg:w-[calc(100%-332px)]"
-                    )}
-                  >
+                  <div className={cn("flex flex-col w-full gap-4", "lg:w-[calc(100%-332px)]")}>
                     {/* Name Field */}
                     <FormField
                       control={form.control}
@@ -258,10 +220,7 @@ export default function Cadastro(): React.JSX.Element {
                         <FormItem>
                           <FormLabel>Nome do Produto*</FormLabel>
                           <FormControl>
-                            <Input
-                              placeholder="Ex: MacBook Pro M2"
-                              {...field}
-                            />
+                            <Input placeholder="Ex: MacBook Pro M2" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -291,11 +250,7 @@ export default function Cadastro(): React.JSX.Element {
                         <FormItem>
                           <FormLabel>Preço (R$) *</FormLabel>
                           <FormControl>
-                            <Input
-                              type="number"
-                              placeholder="Ex: 1299.99"
-                              {...field}
-                            />
+                            <Input type="number" placeholder="Ex: 1299.99" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -323,11 +278,7 @@ export default function Cadastro(): React.JSX.Element {
                   </div>
                 </div>
 
-                <CardFooter
-                  className={cn(
-                    "[.border-t]:pt-4 px-0 border-t flex justify-end gap-4"
-                  )}
-                >
+                <CardFooter className={cn("[.border-t]:pt-4 px-0 border-t flex justify-end gap-4")}>
                   <Button
                     type="submit"
                     disabled={isSubmitting}

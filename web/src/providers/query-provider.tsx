@@ -14,13 +14,11 @@ export default function QueryProvider({ children }: Props): React.JSX.Element {
         defaultOptions: {
           queries: {
             staleTime: 60 * 1000, // 1 minuto
-            refetchOnWindowFocus: true
-          }
-        }
-      })
+            refetchOnWindowFocus: true,
+          },
+        },
+      }),
   );
 
-  return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
+  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }

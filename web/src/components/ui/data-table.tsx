@@ -10,7 +10,7 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
+  TableRow,
 } from "@/components/ui/table";
 import {
   ColumnDef,
@@ -18,7 +18,7 @@ import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
-  useReactTable
+  useReactTable,
 } from "@tanstack/react-table";
 import debounce from "lodash/debounce";
 
@@ -46,7 +46,7 @@ export default function DataTable<TData, TValue>({
   onPaginationChange,
   handleSearch,
   isFetching,
-  skeletonColumns
+  skeletonColumns,
 }: Props<TData, TValue>): React.JSX.Element {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
@@ -71,20 +71,18 @@ export default function DataTable<TData, TValue>({
       columnFilters,
       pagination: {
         pageIndex,
-        pageSize
-      }
+        pageSize,
+      },
     },
     getFilteredRowModel: getFilteredRowModel(),
     manualPagination: true,
     onPaginationChange: updater => {
       const newPagination =
-        typeof updater === "function"
-          ? updater({ pageIndex, pageSize })
-          : updater;
+        typeof updater === "function" ? updater({ pageIndex, pageSize }) : updater;
       onPaginationChange(newPagination.pageIndex);
     },
     onColumnFiltersChange: setColumnFilters,
-    getCoreRowModel: getCoreRowModel()
+    getCoreRowModel: getCoreRowModel(),
   });
 
   return (
@@ -105,15 +103,12 @@ export default function DataTable<TData, TValue>({
                   key={header.id}
                   className={cn("px-4 text-sm")}
                   style={{
-                    width: header.getSize()
+                    width: header.getSize(),
                   }}
                 >
                   {header.isPlaceholder
                     ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
+                    : flexRender(header.column.columnDef.header, header.getContext())}
                 </TableHead>
               ))}
             </TableRow>
@@ -122,15 +117,9 @@ export default function DataTable<TData, TValue>({
         <TableBody>
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map(row => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-              >
+              <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
                 {row.getVisibleCells().map(cell => (
-                  <TableCell
-                    key={cell.id}
-                    className={cn("p-4 whitespace-normal")}
-                  >
+                  <TableCell key={cell.id} className={cn("p-4 whitespace-normal")}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
@@ -138,19 +127,14 @@ export default function DataTable<TData, TValue>({
             ))
           ) : (
             <TableRow>
-              <TableCell
-                colSpan={columns.length}
-                className={cn("h-24 text-center")}
-              >
+              <TableCell colSpan={columns.length} className={cn("h-24 text-center")}>
                 Sem resultados.
               </TableCell>
             </TableRow>
           )}
         </TableBody>
       </Table>
-      <div
-        className={cn("flex items-center justify-between py-4 px-4 border-t")}
-      >
+      <div className={cn("flex items-center justify-between py-4 px-4 border-t")}>
         <div className={cn("text-sm text-muted-foreground")}>
           Página {table.getState().pagination.pageIndex + 1} de{" "}
           {table.getPageCount() === 0 ? 1 : table.getPageCount()}

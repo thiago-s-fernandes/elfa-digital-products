@@ -1,8 +1,4 @@
-import {
-  keepPreviousData,
-  useQuery,
-  type UseQueryResult
-} from "@tanstack/react-query";
+import { keepPreviousData, useQuery, type UseQueryResult } from "@tanstack/react-query";
 
 export interface Product {
   id: number;
@@ -29,16 +25,12 @@ interface GetProductsQuery {
   name?: string;
 }
 
-export const API_BASE_URL = process.env.API_BASE_URL as string;
-
 export async function fetchFromApi<T>(endpoint: string): Promise<T> {
-  const response = await fetch(`${API_BASE_URL}${endpoint}`);
+  const response = await fetch(`${process.env.API_BASE_URL}${endpoint}`);
   return response.json();
 }
 
-export async function getProducts(
-  query: GetProductsQuery = {}
-): Promise<GetProductsData> {
+export async function getProducts(query: GetProductsQuery = {}): Promise<GetProductsData> {
   const queryEntries = Object.entries(query);
 
   if (queryEntries.length === 0) {
@@ -49,17 +41,15 @@ export async function getProducts(
     .filter(([_, value]) => value !== "" && value !== undefined)
     .map(([key, value]) => `${key}=${value}`);
 
-  return fetchFromApi<GetProductsData>(
-    `/products?${mappedQueryEntries.join("&")}`
-  );
+  return fetchFromApi<GetProductsData>(`/products?${mappedQueryEntries.join("&")}`);
 }
 
 export default function useGetProducts(
-  params: GetProductsQuery
+  params: GetProductsQuery,
 ): UseQueryResult<GetProductsData, Error> {
   return useQuery({
     queryKey: ["products", params],
     queryFn: () => getProducts(params),
-    placeholderData: keepPreviousData
+    placeholderData: keepPreviousData,
   });
 }

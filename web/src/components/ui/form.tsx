@@ -26,9 +26,7 @@ type FormFieldContextValue<
   name: TName;
 };
 
-const FormFieldContext = React.createContext<FormFieldContextValue>(
-  {} as FormFieldContextValue
-);
+const FormFieldContext = React.createContext<FormFieldContextValue>({} as FormFieldContextValue);
 
 const FormField = <
   TFieldValues extends FieldValues = FieldValues,
@@ -83,23 +81,14 @@ type FormItemContextValue = {
   id: string;
 };
 
-const FormItemContext = React.createContext<FormItemContextValue>(
-  {} as FormItemContextValue
-);
+const FormItemContext = React.createContext<FormItemContextValue>({} as FormItemContextValue);
 
-function FormItem({
-  className,
-  ...props
-}: React.ComponentProps<"div">): React.JSX.Element {
+function FormItem({ className, ...props }: React.ComponentProps<"div">): React.JSX.Element {
   const id = React.useId();
 
   return (
     <FormItemContext.Provider value={{ id }}>
-      <div
-        data-slot="form-item"
-        className={cn("grid gap-2", className)}
-        {...props}
-      />
+      <div data-slot="form-item" className={cn("grid gap-2", className)} {...props} />
     </FormItemContext.Provider>
   );
 }
@@ -121,31 +110,21 @@ function FormLabel({
   );
 }
 
-function FormControl({
-  ...props
-}: React.ComponentProps<typeof Slot>): React.JSX.Element {
-  const { error, formItemId, formDescriptionId, formMessageId } =
-    useFormField();
+function FormControl({ ...props }: React.ComponentProps<typeof Slot>): React.JSX.Element {
+  const { error, formItemId, formDescriptionId, formMessageId } = useFormField();
 
   return (
     <Slot
       data-slot="form-control"
       id={formItemId}
-      aria-describedby={
-        !error
-          ? `${formDescriptionId}`
-          : `${formDescriptionId} ${formMessageId}`
-      }
+      aria-describedby={!error ? `${formDescriptionId}` : `${formDescriptionId} ${formMessageId}`}
       aria-invalid={!!error}
       {...props}
     />
   );
 }
 
-function FormDescription({
-  className,
-  ...props
-}: React.ComponentProps<"p">): React.JSX.Element {
+function FormDescription({ className, ...props }: React.ComponentProps<"p">): React.JSX.Element {
   const { formDescriptionId } = useFormField();
 
   return (
@@ -158,10 +137,7 @@ function FormDescription({
   );
 }
 
-function FormMessage({
-  className,
-  ...props
-}: React.ComponentProps<"p">): React.JSX.Element | null {
+function FormMessage({ className, ...props }: React.ComponentProps<"p">): React.JSX.Element | null {
   const { error, formMessageId } = useFormField();
   const body = error ? String(error?.message ?? "") : props.children;
 

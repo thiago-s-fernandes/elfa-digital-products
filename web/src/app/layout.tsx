@@ -11,7 +11,7 @@ import "./globals.css";
 const font = Funnel_Sans({
   weight: ["300", "400", "500", "600", "700"],
   display: "swap",
-  subsets: ["latin", "latin-ext"]
+  subsets: ["latin", "latin-ext"],
 });
 
 export const metadata: Metadata = {
@@ -29,29 +29,25 @@ export const metadata: Metadata = {
       url: "metadata/elfa.svg",
       type: "image/svg+xml",
       width: "1200",
-      height: "700"
-    }
+      height: "700",
+    },
   },
   formatDetection: {
     address: false,
     date: false,
     email: false,
     telephone: false,
-    url: false
-  }
+    url: false,
+  },
 };
 
 export default function RootLayout({
-  children
+  children,
 }: Readonly<{
   children: React.ReactNode;
 }>): React.JSX.Element {
   return (
-    <html
-      lang="pt-BR"
-      className={cn(font.className, "scroll-smooth")}
-      suppressHydrationWarning
-    >
+    <html lang="pt-BR" className={cn(font.className, "scroll-smooth")} suppressHydrationWarning>
       <body>
         <Header />
         <QueryProvider>{children}</QueryProvider>

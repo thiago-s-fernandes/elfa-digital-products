@@ -6,10 +6,7 @@ import { cn } from "@/lib/utils";
 import useGetProducts, { Product } from "@/hooks/useGetProducts";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import {
-  productColumns,
-  productSkeletonColumns
-} from "@/app/produtos/_components/product-columns";
+import { productColumns, productSkeletonColumns } from "@/app/produtos/_components/product-columns";
 import Container from "@/components/layout/container";
 import Link from "next/link";
 import ProductTable from "@/components/ui/data-table";
@@ -36,17 +33,17 @@ export default function Produtos(): React.JSX.Element {
   const { data, isLoading, isFetching } = useGetProducts({
     page: pageIndex + 1, // 1-based index
     per_page: pageSize,
-    name: nameFilter
+    name: nameFilter,
   });
 
   const fakeData: { items: Product[]; total: number } = {
     items: Array(pageSize).fill({}),
-    total: pageSize
+    total: pageSize,
   };
 
   const formattedData = {
     items: data?.data.products ?? [],
-    total: data?.data.total ?? 0
+    total: data?.data.total ?? 0,
   };
 
   return (
@@ -59,9 +56,7 @@ export default function Produtos(): React.JSX.Element {
                 <ArrowLeft size={16} />
               </Button>
             </Link>
-            <h1
-              className={cn("text-xl font-bold text-foreground", "lg:text-2xl")}
-            >
+            <h1 className={cn("text-xl font-bold text-foreground", "lg:text-2xl")}>
               Produtos Cadastrados
             </h1>
           </div>
