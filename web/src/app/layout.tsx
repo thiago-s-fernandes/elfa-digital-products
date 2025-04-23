@@ -17,13 +17,15 @@ const font = Funnel_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.SITE_ENV_URL as string),
   title: "Elfa - Digital Products",
-  description: "description",
+  description:
+    "Transformamos ideias em soluções digitais inovadoras. Conheça nossos produtos que conectam tecnologia, eficiência e experiência do usuário.",
   openGraph: {
     url: new URL(process.env.SITE_ENV_URL as string),
     locale: "pt_BR",
     siteName: "Elfa - Digital Products",
     title: "Elfa - Digital Products",
-    description: "description",
+    description:
+      "Descubra os produtos digitais da Elfa: plataformas modernas, interfaces intuitivas e tecnologia de ponta para potencializar negócios.",
     type: "website",
     images: {
       url: "metadata/elfa.svg",
