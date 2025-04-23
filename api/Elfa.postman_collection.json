@@ -27,13 +27,13 @@
 							],
 							"query": [
 								{
-									"key": "skip",
-									"value": "0",
+									"key": "page",
+									"value": "1",
 									"disabled": true
 								},
 								{
-									"key": "take",
-									"value": "10",
+									"key": "per_page",
+									"value": "4",
 									"disabled": true
 								},
 								{
@@ -48,12 +48,12 @@
 								},
 								{
 									"key": "name",
-									"value": "2",
+									"value": "",
 									"disabled": true
 								},
 								{
 									"key": "search",
-									"value": "adidas",
+									"value": "",
 									"disabled": true
 								}
 							]
@@ -68,7 +68,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Chinelo\",\n    \"price\": 150,\n    \"brandId\": \"b2d051cd-eeb5-4f81-b58b-0d621eceb121\"\n}",
+							"raw": "{\n    \"name\": \"Chinelo Calm\",\n    \"price\": 999.99,\n    \"brandId\": \"966bd560-eb81-46f8-90fc-4fa3825b4cc4\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -110,13 +110,13 @@
 							],
 							"query": [
 								{
-									"key": "skip",
-									"value": "0",
+									"key": "page",
+									"value": "1",
 									"disabled": true
 								},
 								{
-									"key": "take",
-									"value": "10",
+									"key": "per_page",
+									"value": "4",
 									"disabled": true
 								},
 								{
@@ -131,7 +131,7 @@
 								},
 								{
 									"key": "name",
-									"value": "Adidas",
+									"value": "Nike",
 									"disabled": true
 								}
 							]
