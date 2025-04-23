@@ -21,7 +21,7 @@ export const productColumns: ColumnDef<Product>[] = [
             width={80}
             height={80}
             alt={row.getValue("name")}
-            className={cn("h-[80px] w-[80px] object-cover")}
+            className={cn("h-[80px] w-[80px] object-contain")}
             priority
           />
         </div>

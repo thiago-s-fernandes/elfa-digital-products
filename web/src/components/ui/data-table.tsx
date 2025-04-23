@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useMemo, useState } from "react";
 import {
   Table,
@@ -136,8 +137,14 @@ export default function DataTable<TData, TValue>({
       </Table>
       <div className={cn("flex items-center justify-between py-4 px-4 border-t")}>
         <div className={cn("text-sm text-muted-foreground")}>
-          Página {table.getState().pagination.pageIndex + 1} de{" "}
-          {table.getPageCount() === 0 ? 1 : table.getPageCount()}
+          {isFetching ? (
+            <Skeleton className={cn("h-5 w-24")} />
+          ) : (
+            <>
+              Página {table.getState().pagination.pageIndex + 1} de{" "}
+              {table.getPageCount() === 0 ? 1 : table.getPageCount()}
+            </>
+          )}
         </div>
         <div className={cn("flex space-x-2")}>
           <Button

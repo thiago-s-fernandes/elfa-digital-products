@@ -44,18 +44,13 @@ export default function Cadastro(): React.JSX.Element {
       .max(255, { message: "Nome deve ter no máximo 255 caracteres." }),
     brandId: z.string().uuid({ message: "Adicione um id válido." }),
     price: z.coerce
-      .number({ required_error: "Preço é obrigatório." })
+      .number({ required_error: "Preço é obrigatório.", message: "Preço invalido." })
       .positive({ message: "Preço deve ser maior que zero." }),
     description: z
       .string()
       .max(500, { message: "Descrição deve ter no máximo 500 caracteres." })
       .optional(),
-    image: z
-      .string()
-      .refine(val => /^data:image\/(jpeg|jpg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(val), {
-        message: "A imagem precisa estar em formato PNG, JPG, JPEG ou WebP com base64 válido.",
-      })
-      .optional(),
+    image: z.any().optional(),
   });
 
   type ProductFormValues = z.infer<typeof productSchema>;
@@ -111,7 +106,7 @@ export default function Cadastro(): React.JSX.Element {
           break;
 
         case "PRODUCT_ALREADY_REGISTERED":
-          toast.warning("O conjunto de nome do produto e marca já estão cadastrados.");
+          toast.warning("O conjunto de nome do produto e marca, já estão cadastrados.");
           break;
 
         case "INTERNAL_SERVER_ERROR":
@@ -124,9 +119,9 @@ export default function Cadastro(): React.JSX.Element {
       return;
     }
 
-    toast.success("Produto cadastrado com sucesso!");
-    form.reset();
     setImagePreview(null);
+    form.reset();
+    toast.success("Produto cadastrado com sucesso!");
   };
 
   return (
@@ -191,7 +186,8 @@ export default function Cadastro(): React.JSX.Element {
                                   </p>
                                 </div>
                               )}
-                              <input
+                              <Input
+                                {...field}
                                 id="product-image"
                                 type="file"
                                 className={cn("hidden")}
@@ -200,7 +196,6 @@ export default function Cadastro(): React.JSX.Element {
                                   handleImageChange(e);
                                   onChange(e.target.files);
                                 }}
-                                {...field}
                               />
                             </div>
                           </FormControl>
@@ -220,7 +215,7 @@ export default function Cadastro(): React.JSX.Element {
                         <FormItem>
                           <FormLabel>Nome do Produto*</FormLabel>
                           <FormControl>
-                            <Input placeholder="Ex: MacBook Pro M2" {...field} />
+                            <Input {...field} placeholder="Digite o nome do produto" />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -235,7 +230,7 @@ export default function Cadastro(): React.JSX.Element {
                         <FormItem>
                           <FormLabel>Id da marca*</FormLabel>
                           <FormControl>
-                            <Input placeholder="Ex: 1234" {...field} />
+                            <Input {...field} placeholder="Digite o id da marca" />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -250,7 +245,12 @@ export default function Cadastro(): React.JSX.Element {
                         <FormItem>
                           <FormLabel>Preço (R$) *</FormLabel>
                           <FormControl>
-                            <Input type="number" placeholder="Ex: 1299.99" {...field} />
+                            <Input
+                              {...field}
+                              type="number"
+                              placeholder="Digite o preço"
+                              value={field.value === 0 ? "" : field.value}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
