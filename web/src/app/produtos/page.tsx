@@ -3,13 +3,13 @@
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import useGetProducts, { Product } from "@/hooks/useGetProducts";
+import { productColumns, productSkeletonColumns } from "@/app/produtos/_components/product-columns";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { productColumns, productSkeletonColumns } from "@/app/produtos/_components/product-columns";
 import Container from "@/components/layout/container";
 import Link from "next/link";
 import ProductTable from "@/components/ui/data-table";
+import useGetProducts, { Product } from "@/hooks/useGetProducts";
 
 export default function Produtos(): React.JSX.Element {
   const searchParams = useSearchParams();
@@ -20,15 +20,6 @@ export default function Produtos(): React.JSX.Element {
 
   const [nameFilter, setNameFilter] = useState<string>(nameFromURL);
   const [pageIndex, setPageIndex] = useState<number>(pageFromURL - 1); // 0-based index;
-
-  useEffect(() => {
-    const params = new URLSearchParams();
-
-    params.set("page", (pageIndex + 1).toString());
-    if (nameFilter) params.set("name", nameFilter);
-
-    router.push(`?${params.toString()}`);
-  }, [nameFilter, pageIndex, router]);
 
   const { data, isLoading, isFetching } = useGetProducts({
     page: pageIndex + 1, // 1-based index
@@ -45,6 +36,21 @@ export default function Produtos(): React.JSX.Element {
     items: data?.data.products ?? [],
     total: data?.data.total ?? 0,
   };
+
+  useEffect(() => {
+    const params = new URLSearchParams();
+
+    params.set("page", (pageIndex + 1).toString());
+    if (nameFilter) params.set("name", nameFilter);
+
+    router.push(`?${params.toString()}`);
+  }, [nameFilter, pageIndex, router]);
+
+  useEffect(() => {
+    if (!isFetching && formattedData.total === 0 && pageIndex !== 0) {
+      setPageIndex(0);
+    }
+  }, [formattedData.total, isFetching, pageIndex]);
 
   return (
     <Container as="main">
