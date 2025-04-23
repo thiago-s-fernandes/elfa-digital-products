@@ -116,8 +116,8 @@ Busca todas as marcas.
 ```ts
 {
   name?: string;
-  skip?: string; // default: "0"
-  take?: string; // default: "10"
+  page?: string; // default: "1"
+  per_page?: string; // default: "10"
   orderBy?: "name" | "createdAt" | "updatedAt" // default "createdAt"
   orderDirection?: "asc" | "desc" // default "desc"
 }
@@ -143,8 +143,8 @@ Busca todos os produtos com filtros opcionais.
 {
   search?: string;
   name?: string;
-  skip?: string; // default: "0"
-  take?: string; // default: "10"
+  page?: string; // default: "1"
+  per_page?: string; // default: "10"
   orderBy?: "name" | "createdAt" | "updatedAt" // default "createdAt"
   orderDirection?: "asc" | "desc" // default "desc"
 }
