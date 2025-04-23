@@ -14,7 +14,14 @@ export const brandNameSchema = stringSchema.openapi({ example: "Nike" });
 export const descriptionSchema = stringSchema.openapi({
   example: "Description"
 });
-export const imageSchema = z.string().nonempty();
+export const imageSchema = z.string().refine(
+  val => {
+    return /^data:image\/(png|jpeg|jpg|webp);base64,[A-Za-z0-9+/=]+$/.test(val);
+  },
+  {
+    message: "A string não é uma imagem base64 válida no formato data URL."
+  }
+);
 export const priceSchema = z.number().positive();
 export const dateSchema = z
   .date()

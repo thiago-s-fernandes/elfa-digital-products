@@ -11,6 +11,7 @@ import {
   productFindAllQuerySchema,
   ProductResponseCode
 } from "@/schemas/product.schema";
+import sharp from "sharp";
 
 export class ProductService {
   constructor(
@@ -75,6 +76,48 @@ export class ProductService {
           errorCode: ProductResponseCode.PRODUCT_ALREADY_REGISTERED,
           message: "product with this name and brand already exists."
         });
+      }
+      if (parsedBody.image) {
+        const base64Image = parsedBody.image.split(";base64,").pop();
+
+        if (base64Image) {
+          const buffer = Buffer.from(base64Image, "base64");
+
+          const metadata = await sharp(buffer).metadata();
+          const format = metadata.format;
+
+          let compressedImageBuffer: Buffer;
+
+          switch (format) {
+            case "jpeg":
+            case "jpg":
+              compressedImageBuffer = await sharp(buffer)
+                .resize(300)
+                .jpeg({ quality: 70 })
+                .toBuffer();
+              break;
+            case "png":
+              compressedImageBuffer = await sharp(buffer)
+                .resize(300)
+                .png({ quality: 70, compressionLevel: 9 })
+                .toBuffer();
+              break;
+            case "webp":
+              compressedImageBuffer = await sharp(buffer)
+                .resize(300)
+                .webp({ quality: 70 })
+                .toBuffer();
+              break;
+            default:
+              compressedImageBuffer = await sharp(buffer)
+                .resize(300)
+                .toBuffer();
+              break;
+          }
+
+          const compressedBase64 = compressedImageBuffer.toString("base64");
+          parsedBody.image = `data:image/${format};base64,${compressedBase64}`;
+        }
       }
 
       await this.productRepository.create({
