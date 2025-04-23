@@ -105,6 +105,18 @@ npm run dev
 
 ---
 
+### Documentação da API
+
+A documentação interativa da API está disponível na rota:
+
+```
+GET /docs
+```
+
+Essa rota exibe uma interface gerada automaticamente a partir dos schemas Zod com o plugin `fastify-zod-openapi` e `@scalar/fastify-api-reference`.
+
+---
+
 ### Endpoints
 
 #### GET `/brands`
