@@ -53,7 +53,7 @@ export default function RootLayout({
       <body>
         <Header />
         <QueryProvider>{children}</QueryProvider>
-        <Toaster duration={3000} richColors closeButton />
+        <Toaster duration={3000} richColors position="top-right" />
         <Footer />
       </body>
     </html>
