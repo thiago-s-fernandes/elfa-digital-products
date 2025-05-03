@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { Upload } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -26,6 +26,7 @@ import { Spinner } from "@/components/ui/spinner";
 
 export default function ProductRegistrationForm(): React.JSX.Element {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const { mutateAsync: createProduct, isPending: isSubmitting } = useCreateProduct();
 
   const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
@@ -110,6 +111,9 @@ export default function ProductRegistrationForm(): React.JSX.Element {
 
     setImagePreview(null);
     form.reset();
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
     toast.success("Produto cadastrado com sucesso!");
   };
 
@@ -155,9 +159,10 @@ export default function ProductRegistrationForm(): React.JSX.Element {
                       )}
                       <Input
                         {...field}
+                        ref={fileInputRef}
                         id="product-image"
                         type="file"
-                        className={cn("hidden")}
+                        className="hidden"
                         accept={ACCEPTED_IMAGE_TYPES.join(",")}
                         onChange={e => {
                           handleImageChange(e);
