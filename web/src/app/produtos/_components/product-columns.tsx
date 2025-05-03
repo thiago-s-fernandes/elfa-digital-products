@@ -17,7 +17,7 @@ export const productColumns: ColumnDef<Product>[] = [
       return (
         <div className={cn("w-[80px] h-[80px] flex items-center justify-center")}>
           <Image
-            src={imageValue ?? "/product-table/placeholder.svg"}
+            src={imageValue ?? "/components/product-table/placeholder.svg"}
             width={80}
             height={80}
             alt={row.getValue("name")}
